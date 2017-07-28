@@ -217,13 +217,28 @@ class Model:
 		agentCompoundEndState = self.state[0]
 		start = time.time()
 		self.belief = self.getNewBelief(self.belief, action, observation, agentCompoundState, agentCompoundEndState, printList)
+		partialBelief = [dict() for i in range(self.numTargets)]
+		for targetCompoundState in self.belief.keys():
+			for i in range(self.numTargets):
+				targetState = targetCompoundState[i]
+				if partialBelief[i].get(targetState, None) == None:
+					partialBelief[i][targetState] = 0
+				partialBelief[i][targetState] += self.belief[targetCompoundState]
 		stop = time.time()
 		printList.append("Belief updated in " + str(stop - start) + " s.")
 		printList.append("Max belief: " + str(max(self.belief.values())))
 		printList.append("Number of states in belief: " + str(len(self.belief)))
+		printList.append("Individual beliefs:")
+		for i in range(self.numTargets):
+			printList.append("\tTarget " + str(i+1) + ": " + str(len(partialBelief[i])))
 
 		# Print results
 		if doPrint:
+			for i in range(self.numTargets):
+				print "Belief target " + str(i+1) + " (sum: " + str(sum(partialBelief[i].values())) + "):"
+				for targetState in partialBelief[i].keys():
+					print str(targetState) + ": " + str(partialBelief[i][targetState])
+
 			print "Belief: "
 			for key in self.belief.keys():
 				print str(key) + ": " + str(self.belief[key])

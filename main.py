@@ -15,7 +15,7 @@ if __name__ == "__main__":
 			[0, 0, 1, 0, 0, 1, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0]]
 	numAgents = 1
-	numTargets = 1	
+	numTargets = 2	
 
 	model = Model(grid, numAgents, numTargets)
 	print "Initial state:"
