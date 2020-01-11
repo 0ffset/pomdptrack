@@ -65,7 +65,7 @@ class ObservationFunction:
 
 	def isValid(self):
 		for s in self.model.states:
-			observationFcnSuccess = sum(list(self.O[s].values())) - 1.0 < 0.00000000001
+			observationFcnSuccess = (sum(list(self.O[s].values())) - 1.0) < 0.00000000001
 			if not observationFcnSuccess:
 				return False
 		return True
